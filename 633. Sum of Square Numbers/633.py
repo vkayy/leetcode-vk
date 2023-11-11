@@ -11,3 +11,12 @@ class Solution:
             else:
                 return True
         return False
+
+# the maximum value of b is the rounded square root of c
+# while a is less than or equal to b
+# if the square sum is greater than c
+# decrement b
+# if the square sum is less than c
+# increment a
+# if equal, return True
+# otherwise, return false
