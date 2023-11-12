@@ -13,3 +13,11 @@ class Solution:
             else:
                 i += 1
         return max
+
+# initialise the max to 0
+# use two pointers
+# set the current area to the width multiplied by the min height
+# if cur is greater than max, set max to cur
+# then, if the height at i is greater than that at j, decrement j
+# otherwise, increment i
+# thus, return the max
