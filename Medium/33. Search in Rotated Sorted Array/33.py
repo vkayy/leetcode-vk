@@ -7,31 +7,20 @@ class Solution:
         while l <= r:
             m = (l + r) // 2
             
+            if target == nums[m]:
+                return m
+            
             if nums[m] >= nums[l]:
-                if target < nums[m]:
-                    if target < nums[l]:
-                        l = m + 1
-                    elif target > nums[l]:
-                        r = m - 1
-                    else:
-                        return l
-                elif target > nums[m]:
+                if target > nums[m] or target < nums[l]:
                     l = m + 1
                 else:
-                    return m
-            else:
-                if target < nums[m]:
                     r = m - 1
-                elif target > nums[m]:
-                    if target < nums[r]:
-                        l = m + 1
-                    elif target > nums[r]:
-                        r = m - 1
-                    else:
-                        return r
+            else:
+                if target < nums[m] or target > nums[r]:
+                    r = m - 1
                 else:
-                    return m
-    
+                    l = m + 1
+            
         return -1
 
 # first, set the left pointer to zero and the right pointer to the last index
@@ -39,33 +28,28 @@ class Solution:
 
 # set the mid pointer to the average of the left and right pointers
 
+# if the target is equal to the number at the mid pointer
+# return the mid pointer
+
 # if the number at the mid pointer is greater than or equal to the number at the left pointer
-# mid is in the left sorted array which is greater than the right sorted array
+# the mid pointer is in the left sorted array which is greater than the right sorted array
 
-# if the target is less than the number at the mid pointer
+# if the target is greater than the number at the mid pointer or the target is less than the number at the left pointer
+# the target is not in the left sorted array
+# set the left pointer to the mid pointer plus one to search the right sorted array
 
-# if the target is less than the number at the left pointer
-# set the left pointer to the mid pointer plus one
-# if the target is greater than the number at the left pointer
-# set the right pointer to the mid pointer minus one
-# else, return the left pointer
-
-# if the target is greater than the number at the mid pointer
-# set the left pointer to the mid pointer plus one
-
-# else, return the mid pointer
+# otherwise, the target is in the left sorted array
+# set the right pointer to the mid pointer minus one to search the left sorted array
 
 # otherwise, the number at the mid pointer is less than the number at the left pointer
+# the mid pointer is in the right sorted array which is less than the left sorted array
 
-# if the target is greater than the number at the mid pointer
+# if the target is less than the number at the mid pointer or the target is greater than the number at the right pointer
+# the target is not in the right sorted array
+# set the right pointer to the mid pointer minus one to search the left sorted array
 
-# if the target is less than the number at the right pointer
-# set the left pointer to the mid pointer plus one
-
-# if the target is greater than the number at the right pointer
-# set the right pointer to the mid pointer minus one
-# else, return the right pointer
-
-# else, return the mid pointer
+# otherwise, the target is in the right sorted array
+# set the left pointer to the mid pointer plus one to search the right sorted array
 
 # return -1 if no element found
+
