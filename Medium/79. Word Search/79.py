@@ -65,27 +65,60 @@ class Solution:
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         
-        m, n = len(board), len(board[0])
+        rs, cs = len(board), len(board[0])
         
-        if len(word) > m * n: return False                            # [a] trivial case to discard
-
-        if not (cnt := Counter(word)) <= Counter(chain(*board)):      # [b] there are not enough
-            return False                                              #     letters on the board
+        if len(word) > rs * cs:
+            return False
         
-        if cnt[word[0]] > cnt[word[-1]]:                              # [c] inverse word if it's better
-             word = word[::-1]                                        #     to start from the end
+        if not (count := Counter(word)) <= Counter(chain(*board)):
+            return False
         
-        def dfs(i, j, s):                                             # recursive postfix search
+        if count[word[0]] > count[word[-1]]:
+            word = word[::-1]
+        
+        def dfs(r, c, i):
+            if i == len(word):
+                return True
             
-            if s == len(word) : return True                           # [1] found the word
-            
-            if 0 <= i < m and 0 <= j < n and board[i][j] == word[s]:  # [2] found a letter
-                board[i][j] = "#"                                     # [3] mark as visited
-                adj = [(i,j+1),(i,j-1),(i+1,j),(i-1,j)]               # [4] iterate over adjacent cells...
-                dp = any(dfs(ii,jj,s+1) for ii,jj in adj)             # [5] ...and try next letter
-                board[i][j] = word[s]                                 # [6] remove mark
-                return dp                                             # [7] return search result
+            if (0 <= r < rs and 0 <= c < cs and board[r][c] == word[i]):
+                board[r][c] = "#"
+                adj = [(r, c + 1), (r, c - 1), (r + 1, c), (r - 1, c)]
+                dp = any(dfs(rr, cc, i + 1) for rr, cc in adj)
+                board[r][c] = word[i]
+                return dp
+            return False
+        
+        return any(dfs(r, c, 0) for r, c in product(range(rs), range(cs)))
 
-            return False                                              # [8] this DFS branch failed
-                
-        return any(dfs(i,j,0) for i,j in product(range(m),range(n)))  # search starting from each position
+# first, we create a variable called rs and set it to the length of board
+# we create a variable called cs and set it to the length of board[0]
+
+# we check if the length of word is greater than rs * cs
+# i.e., if the length of word is greater than the number of cells in board
+# if so, we return False
+
+# we create a variable called count and set it to the Counter of word
+# we check if count is less than or equal to the Counter of chain(*board)
+# i.e., we check if the characters in word are in board
+# if not, we return False
+
+# we check if the count of the first char is greater than that of the last char
+# if so, we reverse word
+
+# then, we create a function called dfs that takes in a row, column, and index
+# if the index is equal to the length of word, we return True
+
+# if the row and col are in bounds and the char at the row and column is the char at index,
+# we set the char at the row and column to "#"
+# this is to mark that we have visited this cell
+# we create a list called adj that contains the adjacent cells
+# we create a boolean called dp and set it to the result of any(dfs(rr, cc, i + 1) for rr, cc in adj)
+# i.e., we call dfs on the adjacent cells (dynamic programming)
+# we set the char at the row and column to the char at index
+# this is to reset the cell
+# we return dp
+
+# otherwise, we return False
+
+# then, we return the result of any(dfs(r, c, 0) for r, c in product(range(rs), range(cs)))
+# i.e., we call dfs on all the cells in board
