@@ -3,20 +3,15 @@ from typing import List
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
         
-        prevmn, prevmx = 1, 1
-        currmn, currmx = nums[0], nums[0]
+        currmn, currmx = 1, 1
         
         gmx = float("-inf")
         
         for num in nums:
             
-            currmn = min(num, num * prevmn, num * prevmx)
-            currmx = max(num, num * prevmn, num * prevmx)
+            temps = [num, num * currmn, num * currmx]
+            currmn, currmx = min(temps), max(temps)
             
-            if currmx > gmx:
-                gmx = currmx
-            
-            prevmn = currmn
-            prevmx = currmx
+            gmx = max(gmx, currmx)
             
         return gmx
