@@ -2,30 +2,38 @@ from typing import List
 
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        intervals.sort(key=lambda x: x[0])
-        slow = 0
-        for fast in range(1, len(intervals)):
-            if intervals[slow][1] >= intervals[fast][0]:
-                intervals[slow][1] = max(intervals[slow][1], intervals[fast][1])
+        
+        intervals.sort(key = lambda x: x[0])
+        
+        index = 0
+        
+        for i in range(1, len(intervals)):
+            
+            if intervals[index][1] < intervals[i][0]:
+                intervals[index + 1] = intervals[i]
+                index += 1
             else:
-                slow += 1
-                intervals[slow] = intervals[fast]
-        return intervals[:slow + 1]
+                intervals[index][1] = max(intervals[index][1], intervals[i][1]) 
+        
+        return intervals[:index + 1]
 
-# we sort the intervals by their start times
-# we have two pointers, slow and fast
-# slow is the pointer for the last merged interval
-# fast is the pointer for the next interval to be merged
+# we sort the intervals by the start of each interval
 
-# we iterate through the intervals starting from the second one
+# then, we create a variable called index and set it to 0
+# this is because we want to keep track of the last interval in the result
 
-# if the slow interval and the fast interval overlap
-# we merge them by updating the end of the slow interval
-# we have to take max of the two end times
-# this is because the fast interval end may be contained within the slow interval
+# then, we iterate through the intervals starting from the second interval
+# this is because we want to compare each interval to the previous interval
 
-# if the slow interval and the fast interval do not overlap
-# we increment slow and assign the fast interval to slow
-# this is because the fast interval is the next interval to be merged
+# if the end of the last interval is less than the start of the current interval
+# i.e., if the current interval is after the last interval
+# we set the interval after the last interval to the current interval
+# and increment index
 
-# we return the intervals up to slow + 1
+# otherwise, the current interval overlaps with the last interval
+# more specifically, the end of the last interval is greater than or equal to the start of the current interval
+# so we update the end of the last interval to be the maximum of the two ends
+# we know the start is less than or equal to the start of the current interval because we sorted the intervals
+
+# after the loop, we return the intervals up to index + 1
+# this is because index is the index of the last interval in the result
