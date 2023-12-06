@@ -26,6 +26,5 @@ class Solution:
 # then, push the result of the operation to the stack
 
 # otherwise, push the token to the stack
-
 # return the first element of the stack
 # this is because the stack will only have one element left
