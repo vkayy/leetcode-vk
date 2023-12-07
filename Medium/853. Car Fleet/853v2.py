@@ -14,3 +14,20 @@ class Solution:
         return fleets
     
 # initialise a list of tuples of the position and speed of the cars
+# sort in non-decreasing order of position
+# initialise a list of the time it takes for each car to reach the target
+# initialise the number of fleets to 1
+# initialise the lead time to the time it takes for the last car to reach the target
+
+# while the list of times is non-empty
+
+# if lead time is less than the time it takes for the last car to reach the target
+# then, we can increment the number of fleets
+# this is because the last car will not be able to catch up to the lead car
+
+# otherwise, we can set the time it takes for the last car to reach the target to the lead time
+# this is because the last car will be able to catch up to the lead car
+
+# then, we can pop the last time from the list of times
+
+# return the number of fleets
